@@ -1,18 +1,20 @@
 # Mayank After Hours — OBS Suite (`mah-obs`)
 
-Integrated **multistream + multichat docks + locked operator layout** for OBS 33, branded for **Mayank After Hours**.
+Integrated **multistream + multichat docks + phone cam plugin + locked operator layout** for stock **OBS 33**, branded for **Mayank After Hours**.
 
 This is **not** a full fork of OBS Studio’s C++ core (that would mean maintaining a private OBS forever).  
 It **is** a real product repo that ships the same outcome the right way:
 
 1. **Multistream** — vendored [obs-multi-rtmp](https://github.com/sorayuki/obs-multi-rtmp) (GPL) → YouTube + Twitch + Kick at once  
-2. **Chat docks** — official platform popouts as OBS Custom Browser Docks (login cookies persist)  
-3. **Loved layout preset** — your vertical chat column + operator chrome, restorable + lockable  
-4. **One-click installer** — applies docks, layout, plugin, lock  
+2. **Phone cam** — [plugins/mah-mobile-cam](plugins/mah-mobile-cam) → open Phone URL on handset, Allow camera (MJPEG web path)  
+3. **Chat docks** — official platform popouts as OBS Custom Browser Docks (login cookies persist)  
+4. **Loved layout preset** — your vertical chat column + operator chrome, restorable + lockable  
+5. **One-click installer** — applies docks, layout, plugins, lock  
 
 ```
 OBS 33 (stock)
  ├─ MAH Multistream dock   ← Multiple Output (plugin)
+ ├─ MAH Mobile Camera      ← phone browser / native companion (plugin)
  ├─ Twitch / Kick / YouTube chat docks (tabs)
  ├─ MAH Multichat Help dock
  └─ Locked DockState preset (“loved” layout)
@@ -30,6 +32,7 @@ powershell -ExecutionPolicy Bypass -File D:\Codes\mah-obs\installer\Install-MahO
 3. Open OBS → enable docks under **Docks** if needed → **Lock Docks**
 4. Open **Multiple output** dock → add YouTube / Twitch / Kick Custom RTMP targets  
    (**stream keys stay in OBS — never paste them into chat**)
+5. Add **MAH Mobile Camera** → open Phone URL on phone → Allow camera (see [docs/PROTOCOL.md](docs/PROTOCOL.md))
 
 ## Why not fork all of OBS?
 
@@ -49,8 +52,9 @@ mah-obs/
   presets/            loved DockState / ExtraBrowserDocks
   docks/              MAH Multichat Help (local HTML)
   tools/              multi-rtmp Windows installer binary
+  plugins/mah-mobile-cam/  phone cam OBS module (standalone cmake)
   vendor/obs-multi-rtmp/   upstream GPL source (submodule-style vendor)
-  docs/               architecture + stream target guide
+  docs/               architecture, PROTOCOL, stream targets
   apps/multichat/     optional future merged-chat companion
 ```
 

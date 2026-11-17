@@ -1,7 +1,7 @@
 ﻿#Requires -Version 5.1
 <#
 .SYNOPSIS
-  Installs Mayank After Hours OBS Suite: multi-rtmp plugin + chat docks + loved layout lock.
+  Installs Mayank After Hours OBS Suite: multi-rtmp + mah-mobile-cam plugins + chat docks + loved layout lock.
 .NOTES
   OBS must be fully quit before running.
 #>
@@ -32,6 +32,44 @@ if ($installer) {
   Start-Process -FilePath $installer.FullName -Wait
 } else {
   Write-Host 'No installer.exe in tools/ — install obs-multi-rtmp manually, then re-run for docks/layout.' -ForegroundColor Yellow
+}
+
+# 1b) MAH Mobile Camera plugin (when built/staged locally)
+$obsRoot = Join-Path ${env:ProgramFiles} 'obs-studio'
+$pluginBin = Join-Path $obsRoot 'obs-plugins\64bit'
+$pluginData = Join-Path $obsRoot 'data\obs-plugins\mah-mobile-cam'
+
+function Install-MahMobileCamFrom([string]$stageRoot) {
+  if (-not (Test-Path $stageRoot)) { return $false }
+  $dll = Get-ChildItem -Path $stageRoot -Recurse -Filter 'mah-mobile-cam.dll' -ErrorAction SilentlyContinue | Select-Object -First 1
+  if (-not $dll) { return $false }
+
+  if (-not (Test-Path $pluginBin)) {
+    Write-Host "OBS plugin folder not found ($pluginBin) — install stock OBS first." -ForegroundColor Yellow
+    return $false
+  }
+
+  New-Item -ItemType Directory -Force -Path $pluginBin, $pluginData | Out-Null
+  Copy-Item $dll.FullName (Join-Path $pluginBin 'mah-mobile-cam.dll') -Force
+
+  $dataSrc = Get-ChildItem -Path $stageRoot -Recurse -Directory -Filter 'data' -ErrorAction SilentlyContinue |
+    Where-Object { Test-Path (Join-Path $_.FullName 'locale') } |
+    Select-Object -First 1
+  if ($dataSrc) {
+    Copy-Item (Join-Path $dataSrc.FullName '*') $pluginData -Recurse -Force
+  }
+
+  Write-Host "Installed mah-mobile-cam from $stageRoot" -ForegroundColor Green
+  return $true
+}
+
+$camRoot = Join-Path $Root 'plugins\mah-mobile-cam'
+$camInstalled = $false
+foreach ($subdir in @('release', 'dist')) {
+  if (Install-MahMobileCamFrom (Join-Path $camRoot $subdir)) { $camInstalled = $true; break }
+}
+if (-not $camInstalled) {
+  Write-Host 'No mah-mobile-cam.dll under plugins/mah-mobile-cam/release or dist — build plugin or copy DLL manually.' -ForegroundColor Yellow
 }
 
 # 2) Copy help dock HTML to stable path
@@ -75,6 +113,7 @@ Write-Host '  1. Open OBS'
 Write-Host '  2. Docks → enable Multiple output (from multi-rtmp)'
 Write-Host '  3. Docks → Twitch / Kick / YouTube / MAH Multichat Help'
 Write-Host '  4. Add 3 Custom RTMP targets (keys from each dashboard — never paste in chat)'
-Write-Host '  5. Keep Docks → Lock Docks ON'
+Write-Host '  5. Add MAH Mobile Camera → open Phone URL on phone → Allow camera'
+Write-Host '  6. Keep Docks → Lock Docks ON'
 Write-Host ''
 Write-Host 'Done.'

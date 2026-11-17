@@ -18,6 +18,7 @@ Instead `mah-obs` integrates:
 | Layer | Tech | Role |
 |---|---|---|
 | Multistream | `vendor/obs-multi-rtmp` (GPL) | Multiple Output dock |
+| Phone cam | `plugins/mah-mobile-cam` | MAH Mobile Camera source; web MJPEG on `:28889` |
 | Chat | OBS Custom Browser Docks | Official Twitch/Kick/YouTube pages |
 | Layout | `presets/layout-loved.json` | DockState + ExtraBrowserDocks + SideDocks |
 | Installer | `installer/Install-MahObs.ps1` | One-shot apply |
@@ -34,9 +35,19 @@ Merged “read all / send all” needs either:
 
 Kick’s official OBS popout remains **read-only** per Kick’s docs.
 
+## Phone cam
+
+Shipped as a **standalone OBS plugin** under `plugins/mah-mobile-cam/` (OBS plugin-template CMake), not an in-tree OBS fork.
+
+- **Preferred path:** phone browser → HTTP/WebSocket on port `28889` (see [PROTOCOL.md](PROTOCOL.md)).
+- **Build:** same flow as `vendor/obs-multi-rtmp`; optional `ENABLE_FFMPEG` for native H.264 TCP.
+- **Install:** suite copies built DLL + `data/` into stock OBS when staged under `plugins/mah-mobile-cam/release` or `dist/`.
+
 ## Future native plugin path
 
 ```
+plugins/
+  mah-mobile-cam/    # phone source (v1)
 apps/
   mah-multistream/   # optional rebranded fork of multi-rtmp
   mah-multichat/     # Qt dock: Twitch IRC + YT API + Kick WS
