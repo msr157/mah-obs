@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MAH Multichat Help</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:#0c1014; --ink:#eee8dc; --muted:#9aa19a; --line:rgba(238,232,220,.12); --amber:#e5b875;
+      --twitch:#bf94ff; --youtube:#ff6b6b; --kick:#53fc18; --ok:#8dffa8; --bad:#ff8e8e;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:Outfit,system-ui,sans-serif}
+    main{padding:14px;display:grid;gap:10px}
+    .brand{font-size:11px;letter-spacing:.22em;color:var(--muted)}
+    .brand b{color:var(--amber);font-weight:500}
+    h1{margin:4px 0 0;font-size:20px;font-weight:500}
+    p{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
+    .card{border:1px solid var(--line);border-radius:12px;padding:12px;background:#141a20;display:grid;gap:6px}
+    .ok{color:var(--ok)} .bad{color:var(--bad)}
+    .tw{color:var(--twitch)} .yt{color:var(--youtube)} .kk{color:var(--kick)}
+    b.ink{color:var(--ink)}
+  </style>
+</head>
+<body>
+  <main>
+    <div>
+      <div class="brand">MAYANK <b>AFTER HOURS</b></div>
+      <h1>Multichat help</h1>
+      <p>Your right-side tabs are the real chats. This panel is FAQ only.</p>
+    </div>
+
+    <div class="card">
+      <p class="ok">Lock this UI</p>
+      <p>1. <b class="ink">Docks → Lock Docks</b> (keeps panels from drifting)</p>
+      <p>2. Quit OBS once normally so layout saves</p>
+      <p>3. Layout backup lives in <b class="ink">%AppData%\obs-studio\user.ini</b> (+ .bak-layout-loved-*)</p>
+    </div>
+
+    <div class="card">
+      <p class="ok">Sign-in</p>
+      <p><b class="yt">YouTube</b> + <b class="tw">Twitch</b>: sign in once each via right‑click dock → <b class="ink">Interact</b>. Cookies stay in OBS.</p>
+      <p><b class="kk">Kick</b>: official popout is <b class="ink">read-only</b> in OBS (Kick’s rule). Messages show; reply in Kick browser/app.</p>
+    </div>
+
+    <div class="card">
+      <p class="bad">All chats in one feed + send to all?</p>
+      <p><b class="ink">Not with these official docks.</b> Tabs = one platform at a time (read/send on that tab).</p>
+      <p>True merged read + “send to all three” needs a chat aggregator (we avoided Restream/Aitum). Official docks can’t legally/reliably merge + fan-out replies.</p>
+    </div>
+
+    <div class="card">
+      <p class="ok">Stream to YouTube + Twitch + Kick together</p>
+      <p>OBS <b class="ink">Settings → Stream</b> is always <b class="ink">one</b> destination. That’s normal.</p>
+      <p>Use the <b class="ink">Multiple Output</b> dock from <b class="ink">obs-multi-rtmp</b> (free plugin) — add 3 Custom RTMP targets. Never paste stream keys in chat.</p>
+    </div>
+  </main>
+</body>
+</html>

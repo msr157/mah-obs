@@ -1,0 +1,20 @@
+# secrets / local
+**/*.env
+**/stream-destinations.env
+**/*stream*key*
+*.log
+
+# build
+**/build/
+**/out/
+**/.vs/
+**/*.user
+**/*.pdb
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# large optional local copies (installer may be gitignored if too big — keep tools/*.exe tracked if <2MB)
+node_modules/
